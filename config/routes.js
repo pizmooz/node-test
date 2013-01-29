@@ -79,24 +79,25 @@ module.exports = function (app, passport, auth) {
 
   var taxon=require('../app/controllers/taxon')
   
+  app.get('/taxon', taxon.index)
   app.get('/taxon/:taxon_id',taxon.show)
   app.get('/taxon/search/:taxon_query',taxon.search)
 
-  // app.param('taxon_id',function (req,res,next,taxon_id) {
-  //   Taxon
-  //     .findOne({'id':taxon_id})
-  //     .exec(function(err,obj) {
-  //       if (err) return next(err)
-  //       req.taxon=obj
-  //     })
-  //   Picture
-  //     .find({'taxon_id': taxon_id})
-  //     .exec(function(err,obj) {
-  //       if (err) return next(err)
-  //       req.pictures=obj
-  //   })
-  //   next()
-  // })
+  app.param('taxon_id',function (req,res,next,taxon_id) {
+    Taxon
+      .findOne({'id':taxon_id})
+      .exec(function(err,obj) {
+        if (err) return next(err)
+        req.taxon=obj
+        Picture
+          .find({'taxon_id': taxon_id})
+          .exec(function(err,obj) {
+            if (err) return next(err)
+            req.pictures=obj
+            next()
+        })      
+      })
+  })
  // home route
   app.get('/', articles.index)
 

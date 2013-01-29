@@ -7,26 +7,21 @@ var mongoose = require('mongoose')
 console.log("taxon loaded\n")
 
 exports.show = function(req,res){
+  var taxon = req.taxon
+    , pictures = req.pictures
 
- 	Taxon
-      .findOne({'id':req.param('taxon_id')})
-      .exec(function(err,obj) {
-       	if (err) return next(err)
-       	var taxon=obj
-       	console.log(taxon)
-       	Picture
-    		.find({'taxon_id':req.param('taxon_id')})
-    		.exec(function(err,obj) {
-    			if(err) return next(err)
-    			console.log(taxon)
-    			var pictures=obj
-    			console.log(pictures)
-	    		res.render('taxon/show' , {
-	    			taxon: taxon,
-	    			pictures: pictures
-	    		})
-    		})
-   	  })
+	res.render('taxon/show' , {
+		taxon: taxon,
+		pictures: pictures
+	})
+}
+
+exports.index = function(req,res){
+  Taxon
+    .find()
+    .exec(function(err, taxons) {
+      res.json(taxons);
+    })
 }
 
 exports.search = function(req,res) {
