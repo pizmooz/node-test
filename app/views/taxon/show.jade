@@ -1,0 +1,11 @@
+extends ../layouts/default
+
+
+
+block content
+	.taxon_name
+		span.genus= taxon.genus
+		span.species=  ' '+taxon.species
+	.taxon_images
+		each picture in pictures
+			img(src='http://mycomagnet.com/images/' + picture.id + '_0.png')

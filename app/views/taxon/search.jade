@@ -1,0 +1,9 @@
+
+extends ../layouts/default
+
+block content
+each taxon in taxons
+	.taxon_name
+		a(href='/taxon/'+taxon.id)
+			span.genus= taxon.genus
+			span.species= ' '+taxon.species
